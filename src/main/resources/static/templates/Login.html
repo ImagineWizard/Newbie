@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script type="text/javascript" src="../common/jquery-3.2.1.min.js"></script>
+
+</head>
+
+<body style="background: url('../common/images/logo.png') no-repeat 1px 1px;background-size:cover;">
+<!--<div style="padding-left: 40%;">
+    <img src="../common/images/logo.png" style="width: 300px;padding-top: 210px">
+</div>-->
+<h1 style="padding-left: 42%;padding-top: 180px;color:#ffffff;font-weight:900 ">欢迎来到NewBie</h1>
+
+<div style="padding-left: 42%;padding-top: 36px;">
+   <span style="width: 80px;color:#ffffff;font-weight:900">用户 :</span>
+    <input type="text" class="user-name" style="height: 24px;border-radius: 5px;width: 160px">
+</div>
+
+<div style="padding-left: 42%;padding-top: 20px">
+    <span style="width: 80px;color:#ffffff;font-weight:900 ">密码 :</span>
+    <input type="password" class="user-passwd" style="height: 24px;border-radius: 5px;width: 160px">
+</div>
+
+<div style="padding-left: 42%;padding-top: 20px">
+    <button class="login-button" style="border-radius: 5px;background-color: cornflowerblue;width: 80px">登录</button>
+    <button class="register-button" style="border-radius: 5px;background-color: cornflowerblue;width: 80px;margin-left: 45px">注册</button>
+</div>
+
+</body>
+<script type="text/javascript">
+    var that= this;
+    this.$(".login-button").bind("click",function () {
+        var userName = that.$(".user-name").val();
+        if(userName){
+            $.get("/user/"+userName+"/existed",function (result) {
+                if(result){
+                    var password = that.$(".user-passwd").val();
+                    if(password){
+                        $.get("/user/"+userName+"/confirm",{password:password},function (result){
+                            if(result){
+                                alert("Login Success!")
+                            }else{
+                                alert("Password Error")
+                            }
+                        });
+                    }else{
+                        alert("Password should not be null");
+                    }
+
+                }else{
+                    alert(userName+" is not existed!");
+                }
+            })
+        }else{
+            alert("user name should not be null!");
+        }
+    })
+    this.$(".register-button").bind("click",function () {
+        window.open("../templates/Register.html","注册账号",{},false);
+    })
+</script>
+</html>

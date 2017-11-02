@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script type="text/javascript" src="../common/jquery-3.2.1.min.js"></script>
+</head>
+<body style="background-color: lightgreen">
+<h1 style="padding-left: 30%;padding-top: 120px">新用户注册</h1>
+<div style="padding-left: 32%;padding-top: 36px">
+    <span style="width: 80px">用户名称 :</span>
+    <input type="text" class="user-name" style="height: 24px;border-radius: 5px;width: 160px">
+</div>
+
+<div style="padding-left: 32%;padding-top: 20px">
+    <label style="width: 80px">登陆密码 :</label>
+    <input type="password" class="user-passwd" style="height: 24px;border-radius: 5px;width: 160px">
+</div>
+
+<div style="padding-left: 32%;padding-top: 20px">
+    <label style="width: 80px">确认密码 :</label>
+    <input type="password" class="confirm-passwd" style="height: 24px;border-radius: 5px;width: 160px">
+</div>
+
+<div style="padding-left: 32%;padding-top: 20px">
+    <label style="width: 80px">绑定邮箱 :</label>
+    <input type="text" class="email" style="height: 24px;border-radius: 5px;width: 160px">
+</div>
+
+<div style="padding-left: 42%;padding-top: 20px">
+    <button class="save-button" style="border-radius: 5px;background-color: cornflowerblue;width: 80px">确认</button>
+    <button class="cancel-button" style="border-radius: 5px;background-color: cornflowerblue;width: 80px;margin-left: 50px">返回</button>
+</div>
+</body>
+<script type="text/javascript">
+    var that = this;
+    this.$(".save-button").bind("click",function () {
+        var userName = that.$(".user-name").val(),
+                userPasswd = that.$(".user-passwd").val(),
+                confirmPasswd = that.$(".confirm-passwd").val(),
+                email = that.$(".email").val();
+        if(userName&&userPasswd&&confirmPasswd&&email){
+            if(userPasswd==confirmPasswd){
+                $.ajax({
+                    type:"POST",
+                    url: "/user/create",
+                    data: {userName:userName,userPasswd:userPasswd,email:email},
+                    success: function (result) {
+                        if(result){
+                            alert("Register Success!")
+                            window.close();
+                        }
+                    }
+                })
+
+            }else{
+                alert("密码不一致，请重新填写")
+            }
+        }else{
+            alert("信息缺失，请补充！")
+        }
+    })
+</script>
+</html>
